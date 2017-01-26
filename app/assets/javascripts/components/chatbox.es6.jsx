@@ -3,17 +3,10 @@ class Chatbox extends React.Component {
   constructor(props){
     super(props)
     let chats = []
-    for (var i = 0; i < 3; i++) {
-      chats.push({
-        message: `(${i}) awd awd a`,
-        color: '#cb2020',
-        user: 'sonic182',
-      })
-    }
+
     this.state = {
       message: '',
-      // chats: []
-      chats: chats
+      chats: []
     }
 
     this.styles = {
@@ -30,7 +23,7 @@ class Chatbox extends React.Component {
   }
 
   componentWillUnmount(){
-    alert('unmounting')
+    // alert('unmounting')
   }
 
   handleInput (ev) {

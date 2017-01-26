@@ -20,5 +20,8 @@ module Chat
       files: ["react-server.js", "components.js"], # files to load for prerendering
       replay_console: true,                 # if true, console.* will be replayed client-side
     }
+    config.react.server_renderer_options = {
+      files: ['server_rendering_components.js', 'server_rendering_admin_components.js']
+   }
   end
 end
