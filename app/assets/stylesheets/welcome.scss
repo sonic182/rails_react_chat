@@ -1,0 +1,29 @@
+// Place all the styles related to the welcome controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.chat{
+
+	margin: 15px auto;
+	// border-top: 1px solid $light-gray;
+	// border-bottom: 1px solid $light-gray;
+
+	.chat-header{
+		.user{
+
+		}
+
+		.date{
+			color: $dark-gray;
+		}
+	}
+
+	.chat-message{
+		margin: 0px;
+		margin-top: 5px;
+	}
+}
+.chat:first-child{
+	margin-top:0px;
+}
