@@ -6,7 +6,9 @@ class Chatbox extends React.Component {
 
     this.state = {
       message: '',
-      chats: []
+      chats: [],
+      user: 'sonic182',
+      color: this.getRandomColor()
     }
 
     this.styles = {
@@ -16,9 +18,57 @@ class Chatbox extends React.Component {
       }
     }
 
+    this.connectChannel.bind(this)
+    this.getMessage.bind(this)
+  }
+
+  connectChannel () {
+    this.channel = App.chat({
+      connected: function(data) {
+        // Called when the subscription is ready for use on the server
+        console.log('connected')
+      },
+
+      disconnected: function() {
+        // Called when the subscription has been terminated by the server
+        console.log('disconnected')
+      },
+
+      received: this.getMessage()
+    })
+  }
+
+  getMessage() {
+    var $this = this
+    return function(data){
+      // Called when there's incoming data on the websocket for this channel
+      data.date = moment(data.date)
+
+      let chats = Object.assign([], $this.state.chats);
+      chats.push(data)
+      $this.setState({message: '', chats: chats})
+      setTimeout(() => {
+        $this.chatbox.scrollTop += $this.chatbox.scrollHeight;
+      }, 10)
+    }
+  }
+
+  sendMessage(data){
+    this.channel.send(data)
+  }
+
+  getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 
   componentDidMount(){
+    this.setState({user: prompt('Nombre de usuario')})
+    this.connectChannel()
     this.chatbox = document.getElementById('chatboxScrollBottom');
   }
 
@@ -32,17 +82,12 @@ class Chatbox extends React.Component {
 
   handleKeyPress (ev) {
     if (ev.keyCode == 13 && this.state.message.match(/\w/)) {
-      let chats = Object.assign([], this.state.chats);
-      chats.push({
+      this.sendMessage({
         message: this.state.message,
-        color: '#cb2020',
-        user: 'sonic182',
+        color: this.state.color,
+        user: this.state.user,
         date: moment()
       })
-      this.setState({message: '', chats: chats})
-      setTimeout(() => {
-        this.chatbox.scrollTop += this.chatbox.scrollHeight;
-      }, 10)
     }
   }
 
