@@ -67,6 +67,12 @@ class Chatbox extends React.Component {
   }
 
   componentDidMount(){
+    var user;
+    while (true){
+      user = prompt('Nombre de usuario')
+      if (user.match(/\w+/))
+      break;
+    }
     this.setState({user: prompt('Nombre de usuario')})
     this.connectChannel()
     this.chatbox = document.getElementById('chatboxScrollBottom');
